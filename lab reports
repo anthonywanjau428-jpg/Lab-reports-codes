@@ -1,0 +1,117 @@
+# Lab 1: Ohm’s Law Calculator
+try:
+    while True:
+        voltage = float(input("Enter voltage (V): "))
+        resistance = float(input("Enter resistance (Ohms): "))
+
+        if resistance != 0:
+            current = voltage / resistance
+            power = voltage * current # Extension: Calculate Power (P = V * I)
+            print(f"Current (A): {current:.2f}")
+            print(f"Power (W): {power:.2f}")
+        else:
+            print("Error: Resistance cannot be zero")
+        
+        cont = input("Do another calculation? (y/n): ")
+        if cont.lower() != 'y':
+            break
+except ValueError:
+    print("Invalid input! Please enter numeric values.")
+
+
+# Lab 2: RC Circuit Simulation
+import numpy as np
+import matplotlib.pyplot as plt
+
+# Constants
+R = 1000   # Resistance in Ohms
+C = 1e-6   # Capacitance in Farads
+V = 5      # Source Voltage
+t = np.linspace(0, 0.01, 1000)
+
+# Simulate Discharging (Vc = V * e^(-t/RC))
+vc_discharging = V * np.exp(-t / (R * C))
+
+plt.plot(t, vc_discharging)
+plt.xlabel("Time (s)")
+plt.ylabel("Capacitor Voltage (V)")
+plt.title("Capacitor Discharging Simulation")
+plt.grid(True)
+plt.show()
+
+
+
+# Lab 3: Data Logging and Plotting
+import random, time
+import matplotlib.pyplot as plt
+
+temps = []
+try:
+    for t in range(10): 
+        temp = 25 + random.uniform(-1, 1)
+        temps.append(temp)
+        
+        # Log to CSV file
+        with open("temps.csv", "a") as f:
+            f.write(f"{t},{temp:.2f}\n")
+        
+        time.sleep(0.5)
+
+    plt.plot(temps)
+    plt.xlabel("Time (s)")
+    plt.ylabel("Temperature (C)")
+    plt.title("Temperature Log")
+    plt.show()
+except IOError:
+    print("Error: Could not write to file.")
+
+
+
+
+
+# Lab 1 (Module 7): IoT Sensor Simulation
+import random, time
+
+for t in range(5):
+    temp = 25 + random.uniform(-1, 1)
+    humidity = 40 + random.uniform(-5, 5) 
+    print(f"Time {t}: Temp = {temp:.2f}C, Humidity = {humidity:.2f}%")
+    
+    with open("iot_log.txt", "a") as f:
+        f.write(f"T={t}, Temp={temp:.2f}, Hum={humidity:.2f}\n")
+    
+    time.sleep(1)
+
+
+
+# Lab 2 (Module 7): Blockchain Simulation
+import hashlib
+
+def hash_block(block):
+    return hashlib.sha256(block.encode()).hexdigest()
+
+genesis = "Block 0: Genesis"
+block1 = "Block 1 after " + hash_block(genesis)
+block2 = "Block 2 after " + hash_block(block1)
+
+print(genesis)
+print(block1)
+print(block2)
+
+
+
+
+# Lab 3 (Module 7): Linear Regression
+import numpy as np
+from sklearn.linear_model import LinearRegression
+
+# Training data (Size in sq ft, Price in $)
+X = np.array([[1000], [1500], [2000], [2500], [3000]])
+y = np.array([200000, 250000, 310000, 360000, 400000])
+
+model = LinearRegression()
+model.fit(X, y)
+
+# Predict price for a 2200 sq ft house
+prediction = model.predict([[2200]])
+print(f"Predicted price for 2200 sq ft: ${prediction[0]:.2f}")
